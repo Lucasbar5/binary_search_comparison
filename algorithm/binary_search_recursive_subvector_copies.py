@@ -1,6 +1,6 @@
 def binary_search_subvector_copies(A: list[int], x):
     n = len(A)
-    if n < 0:
+    if n <= 0:
         return -1
     mid = (0 + n-1) // 2
     if x == A[mid]:
