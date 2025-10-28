@@ -11,7 +11,6 @@ Benchmark de buscas: linear vs. binária (índices) vs. binária (cópias de sub
 
 import random
 import time
-from statistics import mean
 import pandas as pd
 import matplotlib.pyplot as plt
 from algorithm.binary_search_recursive_indexes import binary_search_recursive_indexes
@@ -19,13 +18,13 @@ from algorithm.binary_search_recursive_subvector_copies import binary_search_sub
 from algorithm.linear_search import linear_search
 
 # ------------------------------ Parâmetros ------------------------------
-START_N = 100
-END_N = 1_000_000
-TOTAL_SIZES = 100           # 100 tamanhos igualmente espaçados
-REPEATS_PER_SIZE = 10       # 10 alvos por tamanho
+START_N = 100               # tamanho inicial do vetor
+END_N = 1_000_000           # tamanho final do vetor
+TOTAL_SIZES = 100           # quantidade de tamanhos de vetores
+REPEATS_PER_SIZE = 10       # quantas buscas serão realizadas por tamanho
 SEED = 42                   # para reprodutibilidade
 
-# Para um "modo rápido" (ex.: testes), defina EXECUTION_SIZES < TOTAL_SIZES
+# Do total de tamanhos, quantos quereremos
 EXECUTION_SIZES = TOTAL_SIZES
 
 CSV_OUT = "busca_benchmark_resultados.csv"
@@ -88,11 +87,16 @@ def main():
     print(f"CSV salvo em: {CSV_OUT}")
     print(f"Inconsistências encontradas: {len(mismatches)}")
 
+    n = [r["n"] for r in records]
+    linear = [r["linear_avg_time_ms"] for r in records]
+    binary_idx = [r["binary_idx_avg_time_ms"] for r in records]
+    binary_copy = [r["binary_copy_avg_time_ms"] for r in records]
+
     # Gráfico
     plt.figure()
-    plt.plot(df["n"], df["linear_avg_time_ms"], label="Linear")
-    plt.plot(df["n"], df["binary_idx_avg_time_ms"], label="Binária (índices)")
-    plt.plot(df["n"], df["binary_copy_avg_time_ms"], label="Binária (cópias de subvetor)")
+    plt.plot(n, linear, label="Linear")
+    plt.plot(n, binary_idx, label="Binária (índices)")
+    plt.plot(n, binary_copy, label="Binária (cópias de subvetor)")
     plt.xlabel("Tamanho do vetor (n)")
     plt.ylabel("Tempo médio por busca (ms)")
     plt.title("Comparação de tempo médio por busca vs tamanho do vetor")
@@ -102,7 +106,7 @@ def main():
 
     # Gráfico individual: Linear
     plt.figure(figsize=(8, 5))
-    plt.plot(df["n"], df["linear_avg_time_ms"], color="tab:blue")
+    plt.plot(n, linear, color="tab:blue")
     plt.xlabel("Tamanho do vetor (n)")
     plt.ylabel("Tempo médio por busca (ms)")
     plt.title("Busca Linear — Tempo médio por tamanho de vetor")
@@ -113,7 +117,7 @@ def main():
 
     # Gráfico individual: Binária (índices)
     plt.figure(figsize=(8, 5))
-    plt.plot(df["n"], df["binary_idx_avg_time_ms"], color="tab:orange")
+    plt.plot(n, binary_idx, color="tab:orange")
     plt.xlabel("Tamanho do vetor (n)")
     plt.ylabel("Tempo médio por busca (ms)")
     plt.title("Busca Binária (índices) — Tempo médio por tamanho de vetor")
@@ -124,7 +128,7 @@ def main():
 
     # Gráfico individual: Binária (cópias de subvetor)
     plt.figure(figsize=(8, 5))
-    plt.plot(df["n"], df["binary_copy_avg_time_ms"], color="tab:green")
+    plt.plot(n, binary_copy, color="tab:green")
     plt.xlabel("Tamanho do vetor (n)")
     plt.ylabel("Tempo médio por busca (ms)")
     plt.title("Busca Binária (cópias de subvetor) — Tempo médio por tamanho de vetor")
