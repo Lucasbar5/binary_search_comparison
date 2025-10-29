@@ -26,7 +26,6 @@ SEED = 42                   # para reprodutibilidade
 # Do total de tamanhos, quantos quereremos
 EXECUTION_SIZES = TOTAL_SIZES
 
-PNG_OUT = "busca_benchmark_grafico.png"
 
 # ------------------------------- Execução -------------------------------
 
@@ -96,8 +95,8 @@ def main():
     plt.ylabel("Tempo médio por busca (ms)")
     plt.title("Comparação de tempo médio por busca vs tamanho do vetor")
     plt.legend()
-    plt.savefig(f"graphics/{PNG_OUT}", dpi=140, bbox_inches="tight")
-    print(f"Gráfico salvo em: {PNG_OUT}")
+    plt.savefig(f"graphics/all_3_algorithms_graphic", dpi=140, bbox_inches="tight")
+    print(f"Gráfico salvo em: graphics/all_3_algorithms_graphic")
 
     # Gráfico individual: Linear
     plt.figure(figsize=(8, 5))
