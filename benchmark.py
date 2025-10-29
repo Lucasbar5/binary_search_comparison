@@ -11,7 +11,6 @@ Benchmark de buscas: linear vs. binária (índices) vs. binária (cópias de sub
 
 import random
 import time
-import pandas as pd
 import matplotlib.pyplot as plt
 from algorithm.binary_search_recursive_indexes import binary_search_recursive_indexes
 from algorithm.binary_search_recursive_subvector_copies import binary_search_subvector_copies
@@ -27,7 +26,6 @@ SEED = 42                   # para reprodutibilidade
 # Do total de tamanhos, quantos quereremos
 EXECUTION_SIZES = TOTAL_SIZES
 
-CSV_OUT = "busca_benchmark_resultados.csv"
 PNG_OUT = "busca_benchmark_grafico.png"
 
 # ------------------------------- Execução -------------------------------
@@ -82,10 +80,7 @@ def main():
             "binary_copy_avg_time_ms": bin_copy_avg_time_ms
         })
 
-    df = pd.DataFrame(records)
-    df.to_csv(CSV_OUT, index=False)
-    print(f"CSV salvo em: {CSV_OUT}")
-    print(f"Inconsistências encontradas: {len(mismatches)}")
+    print(f"Quantidade de inconsistências encontradas: {len(mismatches)}")
 
     n = [r["n"] for r in records]
     linear = [r["linear_avg_time_ms"] for r in records]
