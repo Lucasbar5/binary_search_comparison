@@ -21,7 +21,7 @@ START_N = 100               # tamanho inicial do vetor
 END_N = 1_000_000           # tamanho final do vetor
 TOTAL_SIZES = 100           # quantidade de tamanhos de vetores
 REPEATS_PER_SIZE = 10       # quantas buscas serão realizadas por tamanho
-SEED = 42                   # para reprodutibilidade (aleatorização)
+SEED = 42                  # para reprodutibilidade (aleatorização)
 
 # Do total de tamanhos, quantos quereremos
 EXECUTION_SIZES = TOTAL_SIZES
@@ -39,10 +39,10 @@ def main():
     mismatches = []
 
     for n in sizes:
-        A = list(range(n))  # vetor ordenado 0..n-1 (pré-condição da binária)
+        A = sorted([rng.randint(0, n * 2) for _ in range(n)])  # vetor ordenado aleátorio de 0 ate 2n
+        print(A[:5], " + ", A[-5:], "para -> ", n)
         # Sorteia alvos em um range mais largo para incluir casos de "não encontrado"
-        targets = [rng.randint(-n // 2, (3 * n) // 2) for _ in range(REPEATS_PER_SIZE)]
-
+        targets = [rng.randint(-n // 2, (3 * n)) for _ in range(REPEATS_PER_SIZE)] # -(n/2) até 3n
         # Linear
         t0 = time.perf_counter()
         lin_results = [linear_search(A, x) for x in targets]
@@ -89,8 +89,8 @@ def main():
     # Plotar gráfico
     plt.figure()
     plt.plot(n, linear, label="Linear")
-    plt.plot(n, binary_idx, label="Binária (índices)")
     plt.plot(n, binary_copy, label="Binária (cópias de subvetor)")
+    plt.plot(n, binary_idx, label="Binária (índices)")
     plt.xlabel("Tamanho do vetor (n)")
     plt.ylabel("Tempo médio por busca (ms)")
     plt.title("Comparação de tempo médio por busca vs tamanho do vetor")
