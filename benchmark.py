@@ -39,7 +39,8 @@ def main():
     mismatches = []
 
     for n in sizes:
-        A = sorted([rng.randint(0, n * 2) for _ in range(n)])  # vetor ordenado aleátorio de 0 ate 2n
+        # A = sorted([rng.randint(0, n * 2) for _ in range(n)])  # vetor ordenado aleátorio de 0 ate 2n (Gera inconsistência devido a numeros repitidos)
+        A = sorted(rng.sample(range(n * 2), n)) # vetor ordenado aleátorio de 0 ate 2n (Gera inconsistência)
         print(A[:5], " + ", A[-5:], "para -> ", n)
         # Sorteia alvos em um range mais largo para incluir casos de "não encontrado"
         targets = [rng.randint(-n // 2, (3 * n)) for _ in range(REPEATS_PER_SIZE)] # -(n/2) até 3n
