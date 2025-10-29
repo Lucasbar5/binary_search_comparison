@@ -6,7 +6,7 @@ Benchmark de buscas: linear vs. binária (índices) vs. binária (cópias de sub
 - Para cada tamanho, executa 10 buscas de alvos aleatórios (parametrizável) e
   mede o tempo médio por busca para cada algoritmo.
 - Valida se todos os algoritmos retornam o mesmo resultado em cada consulta.
-- Salva CSV e gráfico em disco.
+- Salva gráfico em disco.
 """
 
 import random
@@ -21,7 +21,7 @@ START_N = 100               # tamanho inicial do vetor
 END_N = 1_000_000           # tamanho final do vetor
 TOTAL_SIZES = 100           # quantidade de tamanhos de vetores
 REPEATS_PER_SIZE = 10       # quantas buscas serão realizadas por tamanho
-SEED = 42                   # para reprodutibilidade
+SEED = 42                   # para reprodutibilidade (aleatorização)
 
 # Do total de tamanhos, quantos quereremos
 EXECUTION_SIZES = TOTAL_SIZES
@@ -79,14 +79,14 @@ def main():
             "binary_copy_avg_time_ms": bin_copy_avg_time_ms
         })
 
-    print(f"Quantidade de inconsistências encontradas: {len(mismatches)}")
+    print(f"Quantidade de inconsistências encontradas: {len(mismatches)}") # se valores retornados diferentes.
 
     n = [r["n"] for r in records]
     linear = [r["linear_avg_time_ms"] for r in records]
     binary_idx = [r["binary_idx_avg_time_ms"] for r in records]
     binary_copy = [r["binary_copy_avg_time_ms"] for r in records]
 
-    # Gráfico
+    # Plotar gráfico
     plt.figure()
     plt.plot(n, linear, label="Linear")
     plt.plot(n, binary_idx, label="Binária (índices)")
